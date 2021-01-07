@@ -108,7 +108,11 @@ public enum DefaultBiomes {
 	public static final int basaltDeltas         = 173;
 
 	public static final VersionFeature<BiomeList> DEFAULT_BIOMES = VersionFeature.<Biome> listBuilder()
-		.init( // Starts at beta 1.8
+		.init( // Starts before b1.8.1
+			new Biome(0, "Ocean", OCEAN),
+			new Biome(1, "Plains", PLAINS)
+		)
+		.sinceExtend(RecognisedVersion._b1_8_1,
 			new Biome(0, "Ocean", OCEAN),
 			new Biome(1, "Plains", PLAINS),
 			new Biome(2, "Desert", PLAINS_FLAT),
