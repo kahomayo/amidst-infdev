@@ -247,7 +247,8 @@ public enum RecognisedVersion {
 	_a1_0_16   ("a1.0.16",    "hgazihcjebebmdferjtbdgiigbblkcnlvfinrmd[Jmbap"),                                           // matches the launcher version id: a1.0.16
 	_a1_0_15   ("a1.0.15",    "hfazigcjebebmdferjsbdgiifbbljcnlufinqmc[Jmaap"),                                           // matches the launcher version id: a1.0.15
 	_a1_0_14   ("a1.0.14",    "hcazidcjebebmdfeqjpbdghicbblfcnlpfhnmly[Jlwap"),                                           // matches the launcher version id: a1.0.14
-	_a1_0_11   ("a1.0.11",    "haaziacjebebmddenjlbdgfhzbbkzcnljfenels[Jlqap");                                           // matches the launcher version id: a1.0.11
+	_a1_0_11   ("a1.0.11",    "haaziacjebebmddenjlbdgfhzbbkzcnljfenels[Jlqap"),                                           // matches the launcher version id: a1.0.11
+	_infdev    ("infdev", 	"");																						  // matches all applet versions. The version code doesn't seem to be set up for that...
 	// @formatter:on
 
 	@NotNull
@@ -267,6 +268,8 @@ public enum RecognisedVersion {
 				return classLoader.loadClass(CLIENT_CLASS).getDeclaredFields();
 			} else if (classLoader.findResource(SERVER_CLASS_RESOURCE) != null) {
 				return classLoader.loadClass(SERVER_CLASS).getDeclaredFields();
+			} else if (classLoader.findResource(APPLET_CLASS_RESOURCE) != null) {
+				return classLoader.loadClass(APPLET_CLASS).getDeclaredFields();
 			} else {
 				throw new ClassNotFoundException("unable to find the main class in the given jar file");
 			}
@@ -386,6 +389,9 @@ public enum RecognisedVersion {
 	private static final String CLIENT_CLASS = "net.minecraft.client.Minecraft";
 	private static final String SERVER_CLASS_RESOURCE = "net/minecraft/server/MinecraftServer.class";
 	private static final String SERVER_CLASS = "net.minecraft.server.MinecraftServer";
+	// The "main" class from back when minecraft was a Java Applet (pre-alpha)
+	private static final String APPLET_CLASS_RESOURCE = "net/minecraft/client/MinecraftApplet.class";
+	private static final String APPLET_CLASS = "net.minecraft.client.MinecraftApplet";
 
 	private final boolean isKnown;
 	private final String name;
