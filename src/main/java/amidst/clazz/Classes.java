@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.function.Function;
 
 import amidst.clazz.real.JarFileParsingException;
 import amidst.clazz.real.RealClass;
@@ -25,7 +26,7 @@ public enum Classes {
 
 	public static Map<String, SymbolicClass> createSymbolicClassMap(
 			Path path,
-			URLClassLoader classLoader,
+			Function<Map<SymbolicClassDeclaration, String>, URLClassLoader> classLoaderFactory,
 			ClassTranslator translator)
 			throws FileNotFoundException,
 			JarFileParsingException,
@@ -39,7 +40,8 @@ public enum Classes {
 				.translate(realClasses);
 		AmidstLogger.info("Class search complete.");
 		AmidstLogger.info("Loading classes...");
-		Map<String, SymbolicClass> result = SymbolicClasses.from(realClassNamesBySymbolicClassDeclaration, classLoader);
+		ClassLoader cl = classLoaderFactory.apply(realClassNamesBySymbolicClassDeclaration);
+		Map<String, SymbolicClass> result = SymbolicClasses.from(realClassNamesBySymbolicClassDeclaration, cl);
 		AmidstLogger.info("Classes loaded.");
 		return result;
 	}

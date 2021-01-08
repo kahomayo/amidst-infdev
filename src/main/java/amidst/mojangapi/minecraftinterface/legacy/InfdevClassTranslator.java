@@ -18,7 +18,6 @@ public enum InfdevClassTranslator {
                     && c.searchForStringContaining("level.dat")
                     && c.searchForStringContaining("SizeOnDisk"))
                 .thenDeclareRequired(InfdevSymbolicNames.CLASS_WORLD)
-                    .requiredConstructor(InfdevSymbolicNames.CTOR_WORLD).real("java.io.File").real("java.lang.String").end()
             .next()
                 .ifDetect(c ->
                     c.searchForStringContaining("xPos")
@@ -26,10 +25,11 @@ public enum InfdevClassTranslator {
                     && c.searchForStringContaining("HeightMap"))
                 .thenDeclareRequired(InfdevSymbolicNames.CLASS_CHUNK)
                    .requiredField(InfdevSymbolicNames.FIELD_CHUNK_BLOCKS, "g")
+                   .requiredMethod(InfdevSymbolicNames.METHOD_CHUNK_CALLBACK, "a").end()
             .next()
                 .ifDetect(c -> c.searchForLong(341873128712L) && c.searchForLong(341873128712L))
-                .thenDeclareRequired(InfdevSymbolicNames.CHUNK_GENERATOR_CLASS)
-                    .requiredConstructor(InfdevSymbolicNames.CHUNK_GENERATOR_CTOR).symbolic(InfdevSymbolicNames.CLASS_WORLD).real("long").end()
+                .thenDeclareRequired(InfdevSymbolicNames.CLASS_CHUNK_GENERATOR)
+                    .requiredConstructor(InfdevSymbolicNames.CONSTRUCTOR_CHUNK_GENERATOR).symbolic(InfdevSymbolicNames.CLASS_WORLD).real("long").end()
                     .requiredMethod(InfdevSymbolicNames.METHOD_CHUNK_GENERATOR_GENERATE, "b").real("int").real("int").end()
             .construct();
     }
