@@ -8,17 +8,12 @@ import amidst.mojangapi.minecraftinterface.RecognisedVersion;
 import amidst.mojangapi.minecraftinterface.UnsupportedDimensionException;
 import amidst.mojangapi.world.Dimension;
 import amidst.mojangapi.world.WorldOptions;
-import amidst.mojangapi.world.biome.Biome;
 import amidst.mojangapi.world.versionfeatures.DefaultBiomes;
 
-import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.IntStream;
 
@@ -27,36 +22,25 @@ public class InfdevMinecraftInterface implements MinecraftInterface {
     private final RecognisedVersion recognisedVersion;
     private final SymbolicClass chunkGeneratorClass;
     private final SymbolicClass chunkClass;
-    private final SymbolicClass worldClass;
 
-    public InfdevMinecraftInterface(RecognisedVersion recognisedVersion, SymbolicClass chunkGeneratorClass, SymbolicClass chunkClass, SymbolicClass worldClass) {
+    public InfdevMinecraftInterface(RecognisedVersion recognisedVersion, SymbolicClass chunkGeneratorClass, SymbolicClass chunkClass) {
         this.recognisedVersion = recognisedVersion;
         this.chunkGeneratorClass = chunkGeneratorClass;
         this.chunkClass = chunkClass;
-        this.worldClass = worldClass;
     }
 
     public InfdevMinecraftInterface(Map<String, SymbolicClass> symbolicClassMap, RecognisedVersion recognisedVersion) {
         this(recognisedVersion,
-            symbolicClassMap.get(InfdevSymbolicNames.CHUNK_GENERATOR_CLASS),
-            symbolicClassMap.get(InfdevSymbolicNames.CLASS_CHUNK),
-            symbolicClassMap.get(InfdevSymbolicNames.CLASS_WORLD));
+            symbolicClassMap.get(InfdevSymbolicNames.CLASS_CHUNK_GENERATOR),
+            symbolicClassMap.get(InfdevSymbolicNames.CLASS_CHUNK));
     }
 
     @Override
-    public synchronized  WorldAccessor createWorldAccessor(WorldOptions worldOptions) throws MinecraftInterfaceException {
+    public WorldAccessor createWorldAccessor(WorldOptions worldOptions) throws MinecraftInterfaceException {
         try {
-            // And here we come upon a sad state of affairs...
-            // At the very end of METHOD_CHUNK_GENERATOR_GENERATE, `chunk.a()` is called, which invokes a method
-            // on the chunk's world instance. Thus we have to construct a world. Constructing a world always attempts
-            // to create those directories. The best way I found to deal with this was to use a temp directory.
-            // I don't think the generated chunks actually get written to disk, but that's not really much help.
-            Path worldDir = Files.createTempDirectory("amidst-infdev-tmpworld");
-            worldDir.toFile().deleteOnExit();
-            SymbolicObject world = worldClass.callConstructor(InfdevSymbolicNames.CTOR_WORLD, worldDir.toFile(), "world1");
-            SymbolicObject chunkGenerator = chunkGeneratorClass.callConstructor(InfdevSymbolicNames.CHUNK_GENERATOR_CTOR, world.getObject(), worldOptions.getWorldSeed().getLong());
+            SymbolicObject chunkGenerator = chunkGeneratorClass.callConstructor(InfdevSymbolicNames.CONSTRUCTOR_CHUNK_GENERATOR, null, worldOptions.getWorldSeed().getLong());
             return new WorldAccessor(chunkGenerator);
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | IOException e) {
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
             throw new MinecraftInterfaceException("unable to create chunk generator", e);
         }
     }
@@ -74,9 +58,10 @@ public class InfdevMinecraftInterface implements MinecraftInterface {
         }
 
         @Override
-        public synchronized <T> T getBiomeData(Dimension dimension, int x, int y, int width, int height, boolean useQuarterResolution, Function<int[], T> biomeDataMapper) throws MinecraftInterfaceException {
+        public <T> T getBiomeData(Dimension dimension, int x, int y, int width, int height, boolean useQuarterResolution, Function<int[], T> biomeDataMapper) throws MinecraftInterfaceException {
             if (dimension != Dimension.OVERWORLD)
                 throw new UnsupportedDimensionException(dimension);
+
             int shift = useQuarterResolution ? 4 : 1;
             int blockXBegin = x * shift;
             int blockXEnd = (x + width) * shift;
@@ -106,13 +91,6 @@ public class InfdevMinecraftInterface implements MinecraftInterface {
                                 .map(i -> blocks[i] == 9 || blocks[i] == 8 ? DefaultBiomes.ocean : DefaultBiomes.plains)
                                 .toArray();
 
-                        // for (int yy = 0; yy < 16; ++yy) {
-                        //     for (int xx = 0; xx < 16; ++xx) {
-                        //         System.out.print(biomes[xx + yy * 16]);
-                        //     }
-                        //     System.out.print('\n');
-                        // }
-
                         // add to result array
                         biomesByChunk[chunkZ - chunkZBegin][chunkX - chunkXBegin] = biomes;
                     } catch (IllegalAccessException | InvocationTargetException e) {
@@ -141,7 +119,7 @@ public class InfdevMinecraftInterface implements MinecraftInterface {
 
         @Override
         public Set<Dimension> supportedDimensions() {
-            return Set.of(Dimension.OVERWORLD);
+            return Collections.singleton(Dimension.OVERWORLD);
         }
     }
 }

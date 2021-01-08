@@ -41,7 +41,7 @@ public interface MinecraftInterface {
 		 *            values that have been interpolated up to full resolution.
 		 *
 		 *            When useQuarterResolution is true, the x, y, width, and height
-		 *            paramaters must all correspond to a quarter of the Minecraft
+		 *            parameters must all correspond to a quarter of the Minecraft
 		 *            block coordinates/sizes you wish to obtain the biome data for.
 		 *
 		 *            Amidst displays the quarter-resolution biome map, however full
