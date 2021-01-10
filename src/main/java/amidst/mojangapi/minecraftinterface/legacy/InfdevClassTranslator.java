@@ -9,6 +9,38 @@ public enum InfdevClassTranslator {
 
     public static ClassTranslator get() { return INSTANCE.classTranslator; }
 
+    private static String getFieldChunkBlocks() {
+        switch (InfdevMinecraftInterface.SELECTED_VERSION) {
+            case inf_20100327:
+                return "e";
+            case inf_20100330_1:
+            case inf_20100330_2:
+            case inf_20100413:
+            case inf_20100414:
+            case inf_20100415:
+            case inf_20100420:
+            case inf_20100607:
+            case inf_20100608:
+                return "f";
+            case inf_20100611:
+            case inf_20100615:
+                return "g";
+            case inf_20100616:
+            case inf_20100617_1:
+            case inf_20100617_2:
+            case inf_20100618:
+            case inf_20100624:
+            case inf_20100625_1:
+            case inf_20100625_2:
+            case inf_20100627:
+            case inf_20100629:
+            case inf_20100630_1:
+            case inf_20100630_2:
+                return "g";
+        }
+        return "g";
+    }
+
     // @formatter:off
     private ClassTranslator createClassTranslator() {
         return ClassTranslator
@@ -24,7 +56,7 @@ public enum InfdevClassTranslator {
                     && c.searchForStringContaining("zPos")
                     && c.searchForStringContaining("HeightMap"))
                 .thenDeclareRequired(InfdevSymbolicNames.CLASS_CHUNK)
-                   .requiredField(InfdevSymbolicNames.FIELD_CHUNK_BLOCKS, "g")
+                   .requiredField(InfdevSymbolicNames.FIELD_CHUNK_BLOCKS, getFieldChunkBlocks())
                    .requiredMethod(InfdevSymbolicNames.METHOD_CHUNK_CALLBACK, "a").end()
             .next()
                 .ifDetect(c -> c.searchForLong(341873128712L) && c.searchForLong(341873128712L))
