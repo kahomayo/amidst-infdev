@@ -3,7 +3,7 @@
 
 Version        | Status | Notes
 :------------- | :--    | :--
-inf-20100327   | ✅     | blocks is now `e`
+inf-20100327   | ✅     | blocks is now `e`; callback is now `a`
 inf-20100330-1 | -      |
 inf-20100330-2 | ✅     | blocks is now `f`
 inf-201004xx   | -      |
@@ -22,10 +22,10 @@ inf-20100618   | ?      |
 inf-20100624   | ✅     | blocks is now `b`; seed is now `m`; needed new classtranslator code
 inf-20100625-1 | ✅     |
 inf-20100625-2 | ✅     |
-inf-20100627   |        |
-inf-20100629   |        |
-inf-20100630-1 |        |
-inf-20100630-2 |        |
+inf-20100627   | ✅     |
+inf-20100629   | ✅     |
+inf-20100630-1 | ✅     | seed is now `n`; callback is now `a`
+inf-20100630-2 | ✅     |
 
 ## What is my internet connection used for?
 

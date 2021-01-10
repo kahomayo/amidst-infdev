@@ -2,13 +2,12 @@ package amidst.mojangapi.minecraftinterface.legacy;
 
 import amidst.clazz.real.AccessFlags;
 import amidst.clazz.translator.ClassTranslator;
+import amidst.mojangapi.minecraftinterface.RecognisedVersion;
 
 public enum InfdevClassTranslator {
     INSTANCE;
 
-    private final ClassTranslator classTranslator = createClassTranslator();
-
-    public static ClassTranslator get() { return INSTANCE.classTranslator; }
+    public static ClassTranslator get(RecognisedVersion v) { return INSTANCE.createClassTranslator(v); }
 
     private static String getFieldChunkBlocks() {
         switch (InfdevMinecraftInterface.SELECTED_VERSION) {
@@ -66,15 +65,23 @@ public enum InfdevClassTranslator {
             case inf_20100625_2:
             case inf_20100627:
             case inf_20100629:
+                return "m";
             case inf_20100630_1:
             case inf_20100630_2:
-                return "m";
+                return "n";
         }
         return "g";
     }
 
+    private String getChunkCallback(RecognisedVersion v) {
+        if (RecognisedVersion.isOlderOrEqualTo(RecognisedVersion._infdev_0630, v))
+            return "b";
+        else
+            return "a";
+    }
+
     // @formatter:off
-    private ClassTranslator createClassTranslator() {
+    private ClassTranslator createClassTranslator(RecognisedVersion v) {
         return ClassTranslator
             .builder()
                 .ifDetect(c ->
@@ -94,7 +101,7 @@ public enum InfdevClassTranslator {
                 })
                 .thenDeclareRequired(InfdevSymbolicNames.CLASS_CHUNK)
                    .requiredField(InfdevSymbolicNames.FIELD_CHUNK_BLOCKS, getFieldChunkBlocks())
-                   .requiredMethod(InfdevSymbolicNames.METHOD_CHUNK_CALLBACK, "a").end()
+                   .requiredMethod(InfdevSymbolicNames.METHOD_CHUNK_CALLBACK, getChunkCallback(v)).end()
             .next()
                 .ifDetect(c -> c.searchForLong(341873128712L) && c.searchForLong(341873128712L))
                 .thenDeclareRequired(InfdevSymbolicNames.CLASS_CHUNK_GENERATOR)

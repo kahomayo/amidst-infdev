@@ -248,7 +248,10 @@ public enum RecognisedVersion {
 	_a1_0_15   ("a1.0.15",    "hfazigcjebebmdferjsbdgiifbbljcnlufinqmc[Jmaap"),                                           // matches the launcher version id: a1.0.15
 	_a1_0_14   ("a1.0.14",    "hcazidcjebebmdfeqjpbdghicbblfcnlpfhnmly[Jlwap"),                                           // matches the launcher version id: a1.0.14
 	_a1_0_11   ("a1.0.11",    "haaziacjebebmddenjlbdgfhzbbkzcnljfenels[Jlqap"),                                           // matches the launcher version id: a1.0.11
-	_infdev    ("infdev", 	"");																						  // matches all applet versions. The version code doesn't seem to be set up for that...
+	_infdev_0630 ("infdev-20100630", "aw"), // matches 0630-1
+	_infdev_0627 ("infdev-20100627", "at"), // matches 0627 0629
+	_infdev    ("infdev", 	""),																						  // matches all applet versions. The version code doesn't seem to be set up for that...
+    ;
 	// @formatter:on
 
 	@NotNull
