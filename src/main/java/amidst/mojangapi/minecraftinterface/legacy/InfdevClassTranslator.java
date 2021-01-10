@@ -58,8 +58,8 @@ public enum InfdevClassTranslator {
             case inf_20100616:
             case inf_20100617_1:
             case inf_20100617_2:
-            case inf_20100618:
                 return "l";
+            case inf_20100618:
             case inf_20100624:
             case inf_20100625_1:
             case inf_20100625_2:

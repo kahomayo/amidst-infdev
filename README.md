@@ -18,8 +18,8 @@ inf-20100615   | ✅     |
 inf-20100616   | -      |
 inf-20100617-1 | ✅     | blocks is now `h`; works by adding objenesis; seed is now `l`
 inf-20100617-2 | ✅     |
-inf-20100618   | ?      |
-inf-20100624   | ✅     | blocks is now `b`; seed is now `m`; needed new classtranslator code
+inf-20100618   | ✅     | seed is now `m`; 
+inf-20100624   | ✅     | blocks is now `b`; needed new classtranslator code
 inf-20100625-1 | ✅     |
 inf-20100625-2 | ✅     |
 inf-20100627   | ✅     |
