@@ -12,4 +12,5 @@ public enum InfdevSymbolicNames {
     public static final String CLASS_CHUNK = "Chunk";
     public static final String FIELD_CHUNK_BLOCKS = "blocks";
     public static final String METHOD_CHUNK_CALLBACK = "a";
+    public static final String FIELD_WORLD_SEED = "seed";
 }

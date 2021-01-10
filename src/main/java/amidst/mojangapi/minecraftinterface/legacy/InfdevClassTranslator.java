@@ -36,7 +36,7 @@ public enum InfdevClassTranslator {
             case inf_20100629:
             case inf_20100630_1:
             case inf_20100630_2:
-                return "g";
+                return "h";
         }
         return "g";
     }
@@ -50,6 +50,7 @@ public enum InfdevClassTranslator {
                     && c.searchForStringContaining("level.dat")
                     && c.searchForStringContaining("SizeOnDisk"))
                 .thenDeclareRequired(InfdevSymbolicNames.CLASS_WORLD)
+                    .requiredField(InfdevSymbolicNames.FIELD_WORLD_SEED, "l")
             .next()
                 .ifDetect(c ->
                     c.searchForStringContaining("xPos")

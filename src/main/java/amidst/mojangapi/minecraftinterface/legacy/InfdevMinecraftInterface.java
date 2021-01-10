@@ -9,6 +9,9 @@ import amidst.mojangapi.minecraftinterface.UnsupportedDimensionException;
 import amidst.mojangapi.world.Dimension;
 import amidst.mojangapi.world.WorldOptions;
 import amidst.mojangapi.world.versionfeatures.DefaultBiomes;
+import org.objenesis.Objenesis;
+import org.objenesis.ObjenesisStd;
+import org.objenesis.instantiator.ObjectInstantiator;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
@@ -23,26 +26,45 @@ public class InfdevMinecraftInterface implements MinecraftInterface {
     private final RecognisedVersion recognisedVersion;
     private final SymbolicClass chunkGeneratorClass;
     private final SymbolicClass chunkClass;
+    private final SymbolicClass worldClass;
+    private final Objenesis objenesis = new ObjenesisStd();
+    private final ObjectInstantiator worldInstantiator;
 
-    public InfdevMinecraftInterface(RecognisedVersion recognisedVersion, SymbolicClass chunkGeneratorClass, SymbolicClass chunkClass) {
+
+    public InfdevMinecraftInterface(RecognisedVersion recognisedVersion, SymbolicClass chunkGeneratorClass, SymbolicClass chunkClass, SymbolicClass worldClass) {
         this.recognisedVersion = recognisedVersion;
         this.chunkGeneratorClass = chunkGeneratorClass;
         this.chunkClass = chunkClass;
+        this.worldClass = worldClass;
+        this.worldInstantiator = objenesis.getInstantiatorOf(worldClass.getClazz());
     }
 
     public InfdevMinecraftInterface(Map<String, SymbolicClass> symbolicClassMap, RecognisedVersion recognisedVersion) {
         this(recognisedVersion,
             symbolicClassMap.get(InfdevSymbolicNames.CLASS_CHUNK_GENERATOR),
-            symbolicClassMap.get(InfdevSymbolicNames.CLASS_CHUNK));
+            symbolicClassMap.get(InfdevSymbolicNames.CLASS_CHUNK),
+            symbolicClassMap.get(InfdevSymbolicNames.CLASS_WORLD));
     }
 
     @Override
     public WorldAccessor createWorldAccessor(WorldOptions worldOptions) throws MinecraftInterfaceException {
         try {
-            SymbolicObject chunkGenerator = chunkGeneratorClass.callConstructor(InfdevSymbolicNames.CONSTRUCTOR_CHUNK_GENERATOR, null, worldOptions.getWorldSeed().getLong());
+            long seed = worldOptions.getWorldSeed().getLong();
+            SymbolicObject chunkGenerator = chunkGeneratorClass.callConstructor(
+                    InfdevSymbolicNames.CONSTRUCTOR_CHUNK_GENERATOR, makeWorld(seed), seed);
             return new WorldAccessor(chunkGenerator);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
             throw new MinecraftInterfaceException("unable to create chunk generator", e);
+        }
+    }
+
+    private Object makeWorld(long seed) throws IllegalAccessException {
+        if (InfdevVersion.inf_20100615.ordinal() <= SELECTED_VERSION.ordinal()) {
+            Object instance = worldInstantiator.newInstance();
+            worldClass.getField(InfdevSymbolicNames.FIELD_WORLD_SEED).getRawField().set(instance, seed);
+            return instance;
+        } else {
+            return null;
         }
     }
 
