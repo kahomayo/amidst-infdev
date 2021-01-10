@@ -61,7 +61,7 @@ public enum MinecraftInterfaces {
     @NotNull
     private static Factory fromVersion(RecognisedVersion version) {
         if (RecognisedVersion.isOlderOrEqualTo(version, InfdevMinecraftInterface.LAST_COMPATIBLE_VERSION)) {
-            return new Factory(InfdevClassTranslator.get(), InfdevMinecraftInterface::new, InfdevClassLoaders::from);
+            return new Factory(InfdevClassTranslator.get(version), InfdevMinecraftInterface::new, InfdevClassLoaders::from);
         } else if(RecognisedVersion.isOlderOrEqualTo(version, LegacyMinecraftInterface.LAST_COMPATIBLE_VERSION)) {
             return new Factory(LegacyClassTranslator.get(), LegacyMinecraftInterface::new);
         } else if(RecognisedVersion.isOlderOrEqualTo(version, _1_13MinecraftInterface.LAST_COMPATIBLE_VERSION)) {

@@ -21,14 +21,14 @@ import java.util.function.Function;
 import java.util.stream.IntStream;
 
 public class InfdevMinecraftInterface implements MinecraftInterface {
-    public static final RecognisedVersion LAST_COMPATIBLE_VERSION = RecognisedVersion._infdev;
-    public static final InfdevVersion SELECTED_VERSION = InfdevVersion.inf_20100624;
+    public static final RecognisedVersion LAST_COMPATIBLE_VERSION = RecognisedVersion._infdev_0630;
+    public static final InfdevVersion SELECTED_VERSION = InfdevVersion.inf_20100630_1;
     private final RecognisedVersion recognisedVersion;
     private final SymbolicClass chunkGeneratorClass;
     private final SymbolicClass chunkClass;
     private final SymbolicClass worldClass;
     private final Objenesis objenesis = new ObjenesisStd();
-    private final ObjectInstantiator worldInstantiator;
+    private final ObjectInstantiator<Object> worldInstantiator;
 
 
     public InfdevMinecraftInterface(RecognisedVersion recognisedVersion, SymbolicClass chunkGeneratorClass, SymbolicClass chunkClass, SymbolicClass worldClass) {
@@ -36,7 +36,7 @@ public class InfdevMinecraftInterface implements MinecraftInterface {
         this.chunkGeneratorClass = chunkGeneratorClass;
         this.chunkClass = chunkClass;
         this.worldClass = worldClass;
-        this.worldInstantiator = objenesis.getInstantiatorOf(worldClass.getClazz());
+        this.worldInstantiator = objenesis.getInstantiatorOf((Class<Object>) worldClass.getClazz());
     }
 
     public InfdevMinecraftInterface(Map<String, SymbolicClass> symbolicClassMap, RecognisedVersion recognisedVersion) {
@@ -104,8 +104,9 @@ public class InfdevMinecraftInterface implements MinecraftInterface {
                     try {
                         // call the generator to produce the chunk
                         Object chunk = chunkGenerator.callMethod(InfdevSymbolicNames.METHOD_CHUNK_GENERATOR_GENERATE, chunkX, chunkZ);
+                        SymbolicObject symChunk = (chunk instanceof SymbolicObject) ? (SymbolicObject) chunk : new SymbolicObject(chunkClass, chunk);
                         // get the chunk's data array
-                        byte[] blocks = (byte[]) new SymbolicObject(chunkClass, chunk).getFieldValue(InfdevSymbolicNames.FIELD_CHUNK_BLOCKS);
+                        byte[] blocks = (byte[]) symChunk.getFieldValue(InfdevSymbolicNames.FIELD_CHUNK_BLOCKS);
 
                         // convert to fake biomes
                         int[] biomes = IntStream.range(0, 16)
