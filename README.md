@@ -24,31 +24,76 @@ Min Y | Max Y | Biome
 
 ## Versions
 
-Version        | Status | Notes
-:------------- | :--    | :--
-inf-20100327   | ✅     | blocks is now `e`; callback is now `a`
-inf-20100330-1 | -      |
-inf-20100330-2 | ✅     | blocks is now `f`
-inf-201004xx   | -      |
-inf-20100413   | ✅     | 
-inf-20100414   | ✅     | 
-inf-20100415   | ✅     | 
-inf-20100420   | ✅     | 
-inf-20100607   | ✅     | 
-inf-20100608   | ✅     | 
-inf-20100611   | ✅     | blocks is now `g`
-inf-20100615   | ✅     | 
-inf-20100616   | -      |
-inf-20100617-1 | ✅     | blocks is now `h`; works by adding objenesis; seed is now `l`
-inf-20100617-2 | ✅     |
-inf-20100618   | ✅     | seed is now `m`; 
-inf-20100624   | ✅     | blocks is now `b`; needed new classtranslator code
-inf-20100625-1 | ✅     |
-inf-20100625-2 | ✅     |
-inf-20100627   | ✅     |
-inf-20100629   | ✅     |
-inf-20100630-1 | ✅     | seed is now `n`; callback is now `a`
-inf-20100630-2 | ✅     |
+Version            | Status | Notes
+:----------------- | :--    | :--
+inf-20100327       | ✅     | blocks is now `e`; callback is now `a`
+inf-20100330-1     | -      |
+inf-20100330-2     | ✅     | blocks is now `f`
+inf-201004xx       | -      |
+inf-20100413       | ✅     | 
+inf-20100414       | ✅     | 
+inf-20100415       | ✅     | 
+inf-20100420       | ✅     | 
+inf-20100607       | ✅     | 
+inf-20100608       | ✅     | 
+inf-20100611       | ✅     | blocks is now `g`
+inf-20100615       | ✅     | 
+inf-20100616       | -      |
+inf-20100617-1     | ✅     | blocks is now `h`; works by adding objenesis; seed is now `l`
+inf-20100617-2     | ✅     |
+inf-20100618       | ✅     | seed is now `m`; 
+inf-20100624       | ✅     | blocks is now `b`; needed new classtranslator code
+inf-20100625-1     | ✅     |
+inf-20100625-2     | ✅     |
+inf-20100627       | ✅     |
+inf-20100629       | ✅     |
+inf-20100630-1     | ✅     | seed is now `n`; callback is now `a`
+inf-20100630-2     | ✅     |
+a1.0.0             | ✅     | two for the price of one ;)
+a1.0.1             | -      |
+a1.0.1_01          | ✅     |
+a1.0.2             | -      |
+a1.0.2_01          | ✅     |
+a1.0.2_02          | ✅     |
+a1.0.3             | ✅     |
+a1.0.4             | ✅     |
+a1.0.4-launcher    | ✅     |
+a1.0.5-1           | -      |
+a1.0.5-2           | ✅     |
+a1.0.5_01          | ✅     |
+a1.0.6             | ✅     |
+a1.0.6_01          |        |
+a1.0.6_02          | -      |
+a1.0.6_03          |        |
+a1.0.7             |        |
+a1.0.8             | -      |
+a1.0.8_01          |        |
+a1.0.9             |        |
+a1.0.10            |        |
+a1.0.11            |        |
+a1.0.12            |        |
+a1.0.13            |        |
+a1.0.13_01-1       |        |
+a1.0.13_01-2       |        |
+a1.0.13_01-3       |        |
+a1.0.14-1          |        |
+a1.0.14-2          |        |
+a1.0.14-2-launcher |        |
+a1.0.15            |        |
+a1.0.16            |        |
+a1.0.16_01         |        |
+a1.0.16_02         |        |
+a1.0.17            | -      |
+a1.0.17_01         | -      |
+a1.0.17_02         |        |
+a1.0.17_03         |        |
+a1.0.17_04         |        |
+a1.1.0-1           |        |
+a1.1.0-1-launcher  |        |
+a1.1.0-2           |        |
+a1.1.1             | -      |
+a1.1.2             |        |
+a1.1.2_01          |        |
 
 ## What is my internet connection used for?
 
