@@ -1,6 +1,5 @@
 package amidst.mojangapi.minecraftinterface.legacy;
 
-import amidst.clazz.real.AccessFlags;
 import amidst.clazz.translator.ClassTranslator;
 import amidst.mojangapi.minecraftinterface.RecognisedVersion;
 
@@ -9,72 +8,30 @@ public enum InfdevClassTranslator {
 
     public static ClassTranslator get(RecognisedVersion v) { return INSTANCE.createClassTranslator(v); }
 
-    private static String getFieldChunkBlocks() {
-        switch (InfdevMinecraftInterface.SELECTED_VERSION) {
-            case inf_20100327:
-                return "e";
-            case inf_20100330_1:
-            case inf_20100330_2:
-            case inf_20100413:
-            case inf_20100414:
-            case inf_20100415:
-            case inf_20100420:
-            case inf_20100607:
-            case inf_20100608:
-                return "f";
-            case inf_20100611:
-            case inf_20100615:
-                return "g";
-            case inf_20100616:
-            case inf_20100617_1:
-            case inf_20100617_2:
-            case inf_20100618:
-                return "h";
-            case inf_20100624:
-            case inf_20100625_1:
-            case inf_20100625_2:
-            case inf_20100627:
-            case inf_20100629:
-            case inf_20100630_1:
-            case inf_20100630_2:
-                return "b";
-        }
-        return "g";
+    private static String getFieldChunkBlocks(RecognisedVersion v) {
+        if (RecognisedVersion.isOlderOrEqualTo(v, RecognisedVersion._infdev_20100327))
+            return "e";
+        else if (RecognisedVersion.isOlder(v, RecognisedVersion._infdev_20100611))
+            return "f";
+        else if (RecognisedVersion.isOlder(v, RecognisedVersion._infdev_20100617_1))
+            return "g";
+        else if (RecognisedVersion.isOlder(v, RecognisedVersion._infdev_20100624))
+            return "h";
+        else
+            return "b";
     }
 
-    private static String getFieldWorldSeed() {
-        switch (InfdevMinecraftInterface.SELECTED_VERSION) {
-            case inf_20100327:
-            case inf_20100330_1:
-            case inf_20100330_2:
-            case inf_20100413:
-            case inf_20100414:
-            case inf_20100415:
-            case inf_20100420:
-            case inf_20100607:
-            case inf_20100608:
-            case inf_20100611:
-            case inf_20100615:
-            case inf_20100616:
-            case inf_20100617_1:
-            case inf_20100617_2:
-                return "l";
-            case inf_20100618:
-            case inf_20100624:
-            case inf_20100625_1:
-            case inf_20100625_2:
-            case inf_20100627:
-            case inf_20100629:
-                return "m";
-            case inf_20100630_1:
-            case inf_20100630_2:
-                return "n";
-        }
-        return "g";
+    private static String getFieldWorldSeed(RecognisedVersion v) {
+        if (RecognisedVersion.isOlder(v, RecognisedVersion._infdev_20100618))
+            return "l";
+        else if (RecognisedVersion.isOlder(v, RecognisedVersion._infdev_20100630))
+            return "m";
+        else
+            return "n";
     }
 
     private String getChunkCallback(RecognisedVersion v) {
-        if (RecognisedVersion.isOlderOrEqualTo(RecognisedVersion._infdev_0630, v))
+        if (RecognisedVersion.isOlderOrEqualTo(RecognisedVersion._infdev_20100630, v))
             return "b";
         else
             return "a";
@@ -89,18 +46,19 @@ public enum InfdevClassTranslator {
                     && c.searchForStringContaining("level.dat")
                     && c.searchForStringContaining("SizeOnDisk"))
                 .thenDeclareRequired(InfdevSymbolicNames.CLASS_WORLD)
-                    .requiredField(InfdevSymbolicNames.FIELD_WORLD_SEED, getFieldWorldSeed())
+                    .requiredField(InfdevSymbolicNames.FIELD_WORLD_SEED, getFieldWorldSeed(v))
             .next()
                 .ifDetect(c -> {
-                            if (InfdevMinecraftInterface.SELECTED_VERSION.ordinal() < InfdevMinecraftInterface.InfdevVersion.inf_20100624.ordinal())
-                                return c.searchForStringContaining("xPos")
-                                        && c.searchForStringContaining("zPos")
-                                        && c.searchForStringContaining("HeightMap");
-                            else
-                                return c.searchForStringContaining("Attempted to place a tile entity where there was no entity tile!");
+                    // TODO: test if this can be gotten rid of
+                    if (RecognisedVersion.isOlder(v, RecognisedVersion._infdev_20100624))
+                        return c.searchForStringContaining("xPos")
+                                && c.searchForStringContaining("zPos")
+                                && c.searchForStringContaining("HeightMap");
+                    else
+                        return c.searchForStringContaining("Attempted to place a tile entity where there was no entity tile!");
                 })
                 .thenDeclareRequired(InfdevSymbolicNames.CLASS_CHUNK)
-                   .requiredField(InfdevSymbolicNames.FIELD_CHUNK_BLOCKS, getFieldChunkBlocks())
+                   .requiredField(InfdevSymbolicNames.FIELD_CHUNK_BLOCKS, getFieldChunkBlocks(v))
                    .requiredMethod(InfdevSymbolicNames.METHOD_CHUNK_CALLBACK, getChunkCallback(v)).end()
             .next()
                 .ifDetect(c -> c.searchForLong(341873128712L) && c.searchForLong(341873128712L))
