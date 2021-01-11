@@ -48,20 +48,12 @@ public enum InfdevClassTranslator {
                 .thenDeclareRequired(InfdevSymbolicNames.CLASS_WORLD)
                     .requiredField(InfdevSymbolicNames.FIELD_WORLD_SEED, getFieldWorldSeed(v))
             .next()
-                .ifDetect(c -> {
-                    // TODO: test if this can be gotten rid of
-                    if (RecognisedVersion.isOlder(v, RecognisedVersion._infdev_20100624))
-                        return c.searchForStringContaining("xPos")
-                                && c.searchForStringContaining("zPos")
-                                && c.searchForStringContaining("HeightMap");
-                    else
-                        return c.searchForStringContaining("Attempted to place a tile entity where there was no entity tile!");
-                })
+                .ifDetect(c -> c.searchForStringContaining("Attempted to place a tile entity where there was no entity tile!"))
                 .thenDeclareRequired(InfdevSymbolicNames.CLASS_CHUNK)
                    .requiredField(InfdevSymbolicNames.FIELD_CHUNK_BLOCKS, getFieldChunkBlocks(v))
                    .requiredMethod(InfdevSymbolicNames.METHOD_CHUNK_CALLBACK, getChunkCallback(v)).end()
             .next()
-                .ifDetect(c -> c.searchForLong(341873128712L) && c.searchForLong(341873128712L))
+                .ifDetect(c -> c.searchForLong(341873128712L))
                 .thenDeclareRequired(InfdevSymbolicNames.CLASS_CHUNK_GENERATOR)
                     .requiredConstructor(InfdevSymbolicNames.CONSTRUCTOR_CHUNK_GENERATOR).symbolic(InfdevSymbolicNames.CLASS_WORLD).real("long").end()
                     .requiredMethod(InfdevSymbolicNames.METHOD_CHUNK_GENERATOR_GENERATE, "b").real("int").real("int").end()
