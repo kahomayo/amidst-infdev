@@ -248,14 +248,50 @@ public enum RecognisedVersion {
 	_a1_2_2b   ("a1.2.2b",    "isbmjycwfbqbydyfrlnbphrjxbnngdansgnqbodfd[J[Jnzba"),                                       // matches the launcher version id: a1.2.2b      a1.2.2a
 	_a1_2_1_01 ("a1.2.1_01",  "imbkjrcudbobwdufmlgbnhmjqblmzcynlgiptnv[J[Jnray"),                                         // matches the launcher version id: a1.2.1_01    a1.2.1       a1.2.0_02    a1.2.0_01    a1.2.0
 	_a1_1_2_01 ("a1.1.2_01",  "hqbeircnebibqdleykdbhgriqbflucrmffrofmp[Jmlat"),                                           // matches the launcher version id: a1.1.2_01    a1.1.2
+	_a1_1_2    ("a1.1.2", ""),
+	_a1_1_1    ("a1.1.1", ""),
+	_a1_1_0_2  ("a1.1.0-2", ""),
+	_a1_1_0_1_launcher ("a1.1.0-1-launcher", ""),
+	_a1_1_0_1  ("a1.1.0-1", ""),
 	_a1_1_0    ("a1.1.0",     "hqbeircnebibqdleykdbhgriqbflucrmffroemo[Jmlat"),                                           // matches the launcher version id: a1.1.0
 	_a1_0_17_04("a1.0.17_04", "hpbdiqcmebhbpdkexkbbggqipbeltcqmdfqobmm[Jmjar"),                                           // matches the launcher version id: a1.0.17_04   a1.0.17_02
+	_a1_0_17_03("a1.0.17_03", ""),
+	_a1_0_17_02("a1.0.17_02", ""),
+	_a1_0_17_01("a1.0.17_01", ""),
+	_a1_0_17   ("a1.0.17", ""),
+	_a1_0_16_02("a1.0.16_02", ""),
+	_a1_0_16_01("a1.0.16_01", ""),
 	_a1_0_16   ("a1.0.16",    "hgazihcjebebmdferjtbdgiigbblkcnlvfinrmd[Jmbap"),                                           // matches the launcher version id: a1.0.16
 	_a1_0_15   ("a1.0.15",    "hfazigcjebebmdferjsbdgiifbbljcnlufinqmc[Jmaap"),                                           // matches the launcher version id: a1.0.15
 	_a1_0_14   ("a1.0.14",    "hcazidcjebebmdfeqjpbdghicbblfcnlpfhnmly[Jlwap"),                                           // matches the launcher version id: a1.0.14
-	_a1_0_11   ("a1.0.11",    "haaziacjebebmddenjlbdgfhzbbkzcnljfenels[Jlqap"),                                           // matches the launcher version id: a1.0.11
-	_infdev_20100630	("infdev-20100630",	"aw"),
-	_infdev_20100627	("infdev-20100627",	"at"), // matches 0627 0629
+	_a1_0_14_2_launcher ("a1.0.14-2-launcher", ""),
+	_a1_0_14_2 ("a1.0.14-2", ""),
+	_a1_0_14_1 ("a1.0.14-1", ""),
+	_a1_0_13_01_3 ("a1.0.13_01-3", ""),
+	_a1_0_13_01_2 ("a1.0.13_01-2", ""),
+	_a1_0_13_01_1 ("a1.0.13_01-1", ""),
+	_a1_0_13  ("a1.0.13", ""),
+	_a1_0_12  ("a1.0.12", ""),
+	_a1_0_11  ("a1.0.11",    "haaziacjebebmddenjlbdgfhzbbkzcnljfenels[Jlqap"),                                           // matches the launcher version id: a1.0.11
+	_a1_0_10  ("a1.0.10", ""),
+	_a1_0_9   ("a1.0.9", ""),
+	_a1_0_8_01("a1.0.8_01", ""),
+	_a1_0_8   ("a1.0.8", ""),
+	_a1_0_7   ("a1.0.7", ""),
+	_a1_0_6_03("a1.0.6_03", ""),
+	_a1_0_6_02("a1.0.6_02", ""),
+	_a1_0_6_01("a1.0.6_01", ""),
+	_a1_0_6   ("a1.0.6", "gmaxhlcfebcbjcxefiubafuhkazkfciknewmhkv[Jktan"),
+	_a1_0_5_01("a1.0.5_01", "{applet}-2068753250"),
+	_a1_0_5_2 ("a1.0.5-2", "{applet}466305486"),
+	_a1_0_4   ("a1.0.4", "{applet}790730534"), // matches both original release and launcher version
+	_a1_0_3   ("a1.0.3", "{applet}-1822015641"),
+	_a1_0_2_02("a1.0.2_02", "{applet}-538278088"),
+	_a1_0_2_01("a1.0.2_01", "{applet}-1691321407"),
+	_a1_0_1_01("a1.0.1_01", "{applet}-385336136"),
+	_infdev_20100630	("infdev-20100630",	"{applet}555462259"),
+    _infdev_20100629    ("infdev-20100629",   "{applet}-409825612"),
+	_infdev_20100627	("infdev-20100627",	"{applet}-817349968"),
 	_infdev_20100625_2	("infdev-20100625-2",	"{applet}-1106514455"),
 	_infdev_20100624	("infdev-20100624",	"{applet}658215649"), // matches infdev-20100624 infdev-201025-1
 	_infdev_20100618	("infdev-20100618",	"{applet}638268170"),
@@ -290,7 +326,7 @@ public enum RecognisedVersion {
 			} else if (classLoader.findResource(SERVER_CLASS_RESOURCE) != null) {
 				return classLoader.loadClass(SERVER_CLASS).getDeclaredFields();
 			} else if (classLoader.findResource(APPLET_CLASS_RESOURCE) != null) {
-				return classLoader.loadClass(APPLET_CLASS).getDeclaredFields();
+				return new Field[0];
 			} else {
 				throw new ClassNotFoundException("unable to find the main class in the given jar file");
 			}
@@ -316,7 +352,8 @@ public enum RecognisedVersion {
 			List<String> classes = Stream.of(
 					Stream.of("a", "b", "c", "d", "e", "f").map(c -> "net.minecraft.a.a." + c),
 					Stream.of("a", "b", "c", "d").map(c -> "net.minecraft.a.a.e." + c),
-					Stream.of("a", "b", "c", "d").map(c -> "net.minecraft.a.c.c." + c)
+					Stream.of("a", "b", "c", "d").map(c -> "net.minecraft.a.c.c." + c),
+					Stream.of("ij", "jm", "fz", "ex", "aq", "fi")
 			).flatMap(Function.identity()).collect(Collectors.toList());
 			for (String name : classes) {
 				if (classLoader.findResource(name.replace(".", "/") + ".class") == null)

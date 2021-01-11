@@ -22,7 +22,7 @@ import java.util.function.Function;
 import java.util.stream.IntStream;
 
 public class InfdevMinecraftInterface implements MinecraftInterface {
-    public static final RecognisedVersion LAST_COMPATIBLE_VERSION = RecognisedVersion._infdev_20100630;
+    public static final RecognisedVersion LAST_COMPATIBLE_VERSION = RecognisedVersion._a1_1_2_01;
     private final RecognisedVersion recognisedVersion;
     private final SymbolicClass chunkGeneratorClass;
     private final SymbolicClass chunkClass;
