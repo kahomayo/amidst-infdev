@@ -2,10 +2,16 @@ package amidst.mojangapi.minecraftinterface;
 
 import java.lang.reflect.Field;
 import java.net.URLClassLoader;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import amidst.clazz.symbolic.SymbolicObject;
 import amidst.documentation.Immutable;
 import amidst.documentation.NotNull;
 import amidst.logging.AmidstLogger;
@@ -248,9 +254,21 @@ public enum RecognisedVersion {
 	_a1_0_15   ("a1.0.15",    "hfazigcjebebmdferjsbdgiifbbljcnlufinqmc[Jmaap"),                                           // matches the launcher version id: a1.0.15
 	_a1_0_14   ("a1.0.14",    "hcazidcjebebmdfeqjpbdghicbblfcnlpfhnmly[Jlwap"),                                           // matches the launcher version id: a1.0.14
 	_a1_0_11   ("a1.0.11",    "haaziacjebebmddenjlbdgfhzbbkzcnljfenels[Jlqap"),                                           // matches the launcher version id: a1.0.11
-	_infdev_0630 ("infdev-20100630", "aw"), // matches 0630-1
-	_infdev_0627 ("infdev-20100627", "at"), // matches 0627 0629
-	_infdev    ("infdev", 	""),																						  // matches all applet versions. The version code doesn't seem to be set up for that...
+	_infdev_20100630	("infdev-20100630",	"aw"),
+	_infdev_20100627	("infdev-20100627",	"at"), // matches 0627 0629
+	_infdev_20100625_2	("infdev-20100625-2",	"{applet}-1106514455"),
+	_infdev_20100624	("infdev-20100624",	"{applet}658215649"), // matches infdev-20100624 infdev-201025-1
+	_infdev_20100618	("infdev-20100618",	"{applet}638268170"),
+	_infdev_20100617_2  ("infdev-20100617-2", "{applet}-1501378303"),
+	_infdev_20100617_1  ("infdev-20100617-1", "{applet}-588538399"),
+    _infdev_20100615	("infdev-20100615",	"{applet}725646278"),
+	_infdev_20100611    ("infdev-20100611", 	"{applet}-1700143564"),
+	_infdev_20100607    ("infdev-20100607", 	"{applet}1155837323"), // matches infdev-20100607 infdev-20100608
+	_infdev_20100420    ("infdev-20100420", 	"{applet}14002109"),
+	_infdev_20100415    ("infdev-20100415", 	"{applet}-630454512"),
+	_infdev_20100413    ("infdev-20100413", 	"{applet}904522959"), // matches infdev-20100413 infdev-20100414
+	_infdev_20100330    ("infdev-20100330", 	"{applet}1291748709"),
+	_infdev_20100327    ("infdev-20100327", 	"{applet}1022588581"),
     ;
 	// @formatter:on
 
@@ -261,7 +279,7 @@ public enum RecognisedVersion {
 
 	@NotNull
 	public static String generateMagicString(URLClassLoader classLoader) throws ClassNotFoundException {
-		return generateMagicString(getMainClassFields(classLoader));
+		return generateMagicString(getMainClassFields(classLoader), classLoader);
 	}
 
 	@NotNull
@@ -282,20 +300,38 @@ public enum RecognisedVersion {
 	}
 
 	@NotNull
-	public static RecognisedVersion from(Field[] fields) {
-		return from(generateMagicString(fields));
-	}
-
-	@NotNull
-	public static String generateMagicString(Field[] fields) {
-		String result = "";
+	private static String generateMagicString(Field[] fields, URLClassLoader classLoader) throws ClassNotFoundException {
+		StringBuilder result = new StringBuilder();
 		for (Field field : fields) {
 			String typeString = field.getType().toString();
 			if (typeString.startsWith("class ") && !typeString.contains(".")) {
-				result += typeString.substring(6);
+				result.append(typeString.substring(6));
 			}
 		}
-		return result;
+		if (result.length() == 0) {
+			// We got an applet version that refuses to comply with version detection.
+			// Solution: throw more classes into the mix until the hashes are unique enough.
+		    result.append("{applet}");
+		    StringBuilder mess = new StringBuilder();
+			List<String> classes = Stream.of(
+					Stream.of("a", "b", "c", "d", "e", "f").map(c -> "net.minecraft.a.a." + c),
+					Stream.of("a", "b", "c", "d").map(c -> "net.minecraft.a.a.e." + c),
+					Stream.of("a", "b", "c", "d").map(c -> "net.minecraft.a.c.c." + c)
+			).flatMap(Function.identity()).collect(Collectors.toList());
+			for (String name : classes) {
+				if (classLoader.findResource(name.replace(".", "/") + ".class") == null)
+					continue;
+				Class<?> clazz = classLoader.loadClass(name);
+				// Turns out that the ordering of elements can change by simply restarting the JVM, so I'll sort them...
+				Stream.of(
+						Arrays.stream(clazz.getDeclaredFields()).map(Object::toString),
+						Arrays.stream(clazz.getDeclaredMethods()).map(Object::toString))
+					.flatMap(Function.identity())
+					.sorted().forEach(mess::append);
+			}
+			result.append(mess.toString().hashCode());
+		}
+		return result.toString();
 	}
 
 	@NotNull

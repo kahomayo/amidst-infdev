@@ -21,8 +21,7 @@ import java.util.function.Function;
 import java.util.stream.IntStream;
 
 public class InfdevMinecraftInterface implements MinecraftInterface {
-    public static final RecognisedVersion LAST_COMPATIBLE_VERSION = RecognisedVersion._infdev_0630;
-    public static final InfdevVersion SELECTED_VERSION = InfdevVersion.inf_20100618;
+    public static final RecognisedVersion LAST_COMPATIBLE_VERSION = RecognisedVersion._infdev_20100630;
     private final RecognisedVersion recognisedVersion;
     private final SymbolicClass chunkGeneratorClass;
     private final SymbolicClass chunkClass;
@@ -59,7 +58,7 @@ public class InfdevMinecraftInterface implements MinecraftInterface {
     }
 
     private Object makeWorld(long seed) throws IllegalAccessException {
-        if (InfdevVersion.inf_20100615.ordinal() <= SELECTED_VERSION.ordinal()) {
+        if (RecognisedVersion.isOlder(RecognisedVersion._infdev_20100615, recognisedVersion)) {
             Object instance = worldInstantiator.newInstance();
             worldClass.getField(InfdevSymbolicNames.FIELD_WORLD_SEED).getRawField().set(instance, seed);
             return instance;
@@ -145,31 +144,5 @@ public class InfdevMinecraftInterface implements MinecraftInterface {
         public Set<Dimension> supportedDimensions() {
             return Collections.singleton(Dimension.OVERWORLD);
         }
-    }
-
-    public enum InfdevVersion {
-        inf_20100327,
-        inf_20100330_1,
-        inf_20100330_2,
-        // inf_201004xx,
-        inf_20100413,
-        inf_20100414,
-        inf_20100415,
-        inf_20100420,
-        inf_20100607,
-        inf_20100608,
-        inf_20100611,
-        inf_20100615,
-        inf_20100616,
-        inf_20100617_1,
-        inf_20100617_2,
-        inf_20100618,
-        inf_20100624,
-        inf_20100625_1,
-        inf_20100625_2,
-        inf_20100627,
-        inf_20100629,
-        inf_20100630_1,
-        inf_20100630_2,
     }
 }
