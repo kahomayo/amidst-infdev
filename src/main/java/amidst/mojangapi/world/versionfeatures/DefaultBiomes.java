@@ -107,12 +107,19 @@ public enum DefaultBiomes {
 	public static final int warpedForest         = 172;
 	public static final int basaltDeltas         = 173;
 
+
 	public static final VersionFeature<BiomeList> DEFAULT_BIOMES = VersionFeature.<Biome> listBuilder()
 		.init( // Starts before b1.8.1
 			new Biome(0, "Ocean", OCEAN),
-			new Biome(1, "Plains", PLAINS)
+			new Biome(1, "Plains", PLAINS),
+			new Biome(deepOcean, "Deep Ocean", OCEAN),
+			new Biome(beach, "Beach", BEACH),
+			new Biome(extremeHills, "Extreme Hills", HILLS),
+			new Biome(extremeHillsEdge, "Extreme Hills Edge", HILLS),
+			new Biome(extremeHillsM, "Extreme Hills M", HILLS),
+			new Biome(extremeHillsPlus, "Extreme Hills Plus", HILLS)
 		)
-		.sinceExtend(RecognisedVersion._b1_8_1,
+		.since(RecognisedVersion._b1_8_1,
 			new Biome(0, "Ocean", OCEAN),
 			new Biome(1, "Plains", PLAINS),
 			new Biome(2, "Desert", PLAINS_FLAT),

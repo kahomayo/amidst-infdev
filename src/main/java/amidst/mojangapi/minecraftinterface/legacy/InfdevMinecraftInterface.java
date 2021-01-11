@@ -16,6 +16,7 @@ import org.objenesis.instantiator.ObjectInstantiator;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.IntStream;
@@ -108,11 +109,7 @@ public class InfdevMinecraftInterface implements MinecraftInterface {
                         byte[] blocks = (byte[]) symChunk.getFieldValue(InfdevSymbolicNames.FIELD_CHUNK_BLOCKS);
 
                         // convert to fake biomes
-                        int[] biomes = IntStream.range(0, 16)
-                                .flatMap(blockZ -> IntStream.range(0, 16)
-                                        .map(blockX -> getIndex(blockZ, 63, blockX)))
-                                .map(i -> blocks[i] == 9 || blocks[i] == 8 ? DefaultBiomes.ocean : DefaultBiomes.plains)
-                                .toArray();
+                        int[] biomes = BiomeMapper.byHeight(blocks);
 
                         // add to result array
                         biomesByChunk[chunkZ - chunkZBegin][chunkX - chunkXBegin] = biomes;
@@ -136,13 +133,87 @@ public class InfdevMinecraftInterface implements MinecraftInterface {
             return biomeDataMapper.apply(result);
         }
 
-        private int getIndex(int blockX, int blockY, int blockZ) {
-            return blockY + blockX * 128 + blockZ * 16 * 128;
-        }
-
         @Override
         public Set<Dimension> supportedDimensions() {
             return Collections.singleton(Dimension.OVERWORLD);
         }
+    }
+
+    private enum BiomeMapper {
+        ;
+
+        public static int[] byWater(byte[] blocks) {
+            return streamY63()
+                    .map(i -> blocks[i] == 9 || blocks[i] == 8 ? DefaultBiomes.ocean : DefaultBiomes.plains)
+                    .toArray();
+        }
+
+        private static IntStream streamY63() {
+            return IntStream.range(0, 16)
+                    .flatMap(blockZ -> IntStream.range(0, 16)
+                            .map(blockX -> getIndex(blockZ, 63, blockX)));
+        }
+
+        public static int[] byY63(byte[] blocks) {
+            return streamY63()
+                    .map(i -> {
+                        switch (blocks[i]) {
+                            case 8:
+                            case 9:
+                                return DefaultBiomes.ocean;
+                            case 12:
+                            case 13:
+                                return DefaultBiomes.beach;
+                            case 2:
+                            case 3:
+                                return DefaultBiomes.plains;
+                            default:
+                                return DefaultBiomes.extremeHills;
+                        }
+                    }).toArray();
+        }
+
+        public static int[] byHeight(byte[] blocks) {
+            int[] result = new int[256];
+            for (int z = 0; z < 16; ++z) {
+                for (int x = 0; x < 16; ++x) {
+                    int finalX = x;
+                    int finalZ = z;
+                    int maxY = IntStream.iterate(127, y -> y - 1).limit(128)
+                            .filter(y -> {
+                                int i = getIndex(finalX, y, finalZ);
+                                return blocks[i] != 0 && blocks[i] != 9 && blocks[i] != 8;
+                            })
+                            .findFirst().orElse(0);
+                    int biome;
+                    if (maxY < 55) {
+                        biome = DefaultBiomes.deepOcean;
+                    } else if (maxY < 63){
+                        biome = DefaultBiomes.ocean;
+                    } else if (maxY < 68) {
+                        biome = DefaultBiomes.beach;
+                    } else if (maxY < 80) {
+                        biome = DefaultBiomes.plains;
+                    } else if (maxY < 90) {
+                        biome = DefaultBiomes.extremeHillsEdge;
+                    } else if (maxY < 100) {
+                        biome = DefaultBiomes.extremeHills;
+                    } else if (maxY < 127) {
+                        biome = DefaultBiomes.extremeHillsM;
+                    } else {
+                        biome = DefaultBiomes.extremeHillsPlus;
+                    }
+                    result[z + x * 16] = biome;
+                }
+            }
+            return result;
+        }
+
+
+
+        private static int getIndex(int blockX, int blockY, int blockZ) {
+            return blockY + blockX * 128 + blockZ * 16 * 128;
+        }
+
     }
 }

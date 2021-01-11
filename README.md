@@ -6,6 +6,22 @@ To run this, you need to create profiles with the relevant versions in the vanil
 
 Don't expect much support for this and **do not** bother the developers of regular amidst with problems.
 
+## Biomes
+
+This program displays biomes based on the height of the highest non-water block.
+
+Min Y | Max Y | Biome
+--- | --- | ---
+0 | 54 | Deep Ocean
+55 | 62 | Ocean
+63 | 67 | Beach
+68 | 79 | Plains
+80 | 89 | Extreme Hills Edge
+90 | 99 | Extreme Hills
+100 | 126 | Extreme Hills M
+127 | 127 | Extreme Hills Plus
+
+
 ## Versions
 
 Version        | Status | Notes
