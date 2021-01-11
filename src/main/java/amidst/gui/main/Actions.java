@@ -310,9 +310,10 @@ public class Actions {
 	public void about() {
 		dialogs.displayInfo(
 				"About",
-				"Amidst - Advanced Minecraft Interfacing and Data/Structure Tracking\n\n"
-						+ "Author: Skidoodle aka skiphs\n" + "Mail: toolbox4minecraft+amidst@outlook.com\n"
-						+ "Project Page: https://github.com/toolbox4minecraft/amidst");
+				"Amidst - Advanced Minecraft Interfacing and Data/Structure Tracking MODDED FOR INFDEV COMPATIBILITY \n\n"
+						+ "Amidst by: Skidoodle aka skiphs\n"
+						+ "Bad infdev support by: kahomayo\n"
+						+ "Project Page: https://github.com/kahomayo/amidst-infdev");
 	}
 
 	@CalledOnlyBy(AmidstThread.EDT)

@@ -91,7 +91,7 @@ public enum CrashWindow {
 
 	@CalledOnlyBy(AmidstThread.EDT)
 	private JTextField createReportingTextField() {
-		JTextField result = new JTextField("https://github.com/toolbox4minecraft/amidst/issues/new");
+		JTextField result = new JTextField("https://github.com/kahomayo/amidst-infdev/issues/new");
 		result.setEditable(false);
 		result.selectAll();
 		return result;

@@ -1,5 +1,12 @@
-# Infdev Level Viewer based on Amidst
+# Amidst MODDED FOR INFDEV COMPAT
 
+A version of amidst that was modified to show oceans in infdev. This is *incredibly* slow, as it's basically just generating the chunk and looking for blocks at y=63.
+
+To run this, you need to create profiles with the relevant versions in the vanilla launcher, just like for any other version.
+
+Don't expect much support for this and **do not** bother the developers of regular amidst with problems.
+
+## Versions
 
 Version        | Status | Notes
 :------------- | :--    | :--
