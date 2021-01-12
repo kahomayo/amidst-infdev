@@ -248,25 +248,11 @@ public enum RecognisedVersion {
 	_a1_2_2b   ("a1.2.2b",    "isbmjycwfbqbydyfrlnbphrjxbnngdansgnqbodfd[J[Jnzba"),                                       // matches the launcher version id: a1.2.2b      a1.2.2a
 	_a1_2_1_01 ("a1.2.1_01",  "imbkjrcudbobwdufmlgbnhmjqblmzcynlgiptnv[J[Jnray"),                                         // matches the launcher version id: a1.2.1_01    a1.2.1       a1.2.0_02    a1.2.0_01    a1.2.0
 	_a1_1_2_01 ("a1.1.2_01",  "hqbeircnebibqdleykdbhgriqbflucrmffrofmp[Jmlat"),                                           // matches the launcher version id: a1.1.2_01    a1.1.2
-	_a1_1_2    ("a1.1.2", ""),
-	_a1_1_1    ("a1.1.1", ""),
-	_a1_1_0_2  ("a1.1.0-2", ""),
-	_a1_1_0_1_launcher ("a1.1.0-1-launcher", ""),
-	_a1_1_0_1  ("a1.1.0-1", ""),
 	_a1_1_0    ("a1.1.0",     "hqbeircnebibqdleykdbhgriqbflucrmffroemo[Jmlat"),                                           // matches the launcher version id: a1.1.0
-	_a1_0_17_04("a1.0.17_04", "hpbdiqcmebhbpdkexkbbggqipbeltcqmdfqobmm[Jmjar"),                                           // matches the launcher version id: a1.0.17_04   a1.0.17_02
-	_a1_0_17_03("a1.0.17_03", ""),
-	_a1_0_17_02("a1.0.17_02", ""),
-	_a1_0_17_01("a1.0.17_01", ""),
-	_a1_0_17   ("a1.0.17", ""),
-	_a1_0_16_02("a1.0.16_02", ""),
-	_a1_0_16_01("a1.0.16_01", ""),
-	_a1_0_16   ("a1.0.16",    "hgazihcjebebmdferjtbdgiigbblkcnlvfinrmd[Jmbap"),                                           // matches the launcher version id: a1.0.16
+	_a1_0_17_04("a1.0.17_04", "hpbdiqcmebhbpdkexkbbggqipbeltcqmdfqobmm[Jmjar"),                                           // matches the launcher version id: a1.0.17_04   a1.0.17_02; also a1.0.17_03
+	_a1_0_16   ("a1.0.16",    "hgazihcjebebmdferjtbdgiigbblkcnlvfinrmd[Jmbap"),                                           // matches the launcher version id: a1.0.16; also a1.0.16_01 and a1.0.16_02
 	_a1_0_15   ("a1.0.15",    "hfazigcjebebmdferjsbdgiifbbljcnlufinqmc[Jmaap"),                                           // matches the launcher version id: a1.0.15
-	_a1_0_14   ("a1.0.14",    "hcazidcjebebmdfeqjpbdghicbblfcnlpfhnmly[Jlwap"),                                           // matches the launcher version id: a1.0.14
-	_a1_0_14_2_launcher ("a1.0.14-2-launcher", ""),
-	_a1_0_14_2 ("a1.0.14-2", ""),
-	_a1_0_14_1 ("a1.0.14-1", ""),
+	_a1_0_14   ("a1.0.14",    "hcazidcjebebmdfeqjpbdghicbblfcnlpfhnmly[Jlwap"),                                           // matches the launcher version id: a1.0.14; also a1.0.14-1 and a1.0.14-2
 	_a1_0_13  ("a1.0.13", "haazibcjebebmdeeojnbdgfiabblbcnllffnhlu[Jlsap"), // also _01-1 and _01-2
 	_a1_0_12  ("a1.0.12", "haazibcjebebmdeeojmbdgfiabblacnljffnels[Jlqap"),
 	_a1_0_11  ("a1.0.11",    "haaziacjebebmddenjlbdgfhzbbkzcnljfenels[Jlqap"),                                           // matches the launcher version id: a1.0.11

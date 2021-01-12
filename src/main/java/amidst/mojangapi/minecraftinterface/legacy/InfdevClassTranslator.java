@@ -30,8 +30,14 @@ public enum InfdevClassTranslator {
             return "n";
         else if (RecognisedVersion.isOlder(v, RecognisedVersion._a1_0_4))
             return "p";
-        else
+        else if (RecognisedVersion.isOlder(v, RecognisedVersion._a1_0_16))
             return "q";
+        else if (RecognisedVersion.isOlder(v, RecognisedVersion._a1_0_17_04))
+            return "r";
+        else if (RecognisedVersion.isOlder(v, RecognisedVersion._a1_1_0))
+            return "t";
+        else
+            return "u";
     }
 
     private String getChunkCallback(RecognisedVersion v) {
