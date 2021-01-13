@@ -225,7 +225,7 @@ public class LocalMinecraftInterface implements MinecraftInterface {
     	Object metaRegistry = registryClass.getStaticFieldValue(SymbolicNames.FIELD_REGISTRY_META_REGISTRY);
     	if (!(metaRegistry instanceof SymbolicObject && ((SymbolicObject) metaRegistry).getType().equals(registryClass))) {
     		// Oops, we called the wrong method
-    		String name = RecognisedVersion.isOlder(recognisedVersion, RecognisedVersion._1_16_pre1) ?
+    		String name = RecognisedVersion.isOlder(recognisedVersion, RecognisedVersion._1_16_pre2) ?
     				SymbolicNames.FIELD_REGISTRY_META_REGISTRY2 : SymbolicNames.FIELD_REGISTRY_META_REGISTRY3;
         	metaRegistry = registryClass.getStaticFieldValue(name);
         }

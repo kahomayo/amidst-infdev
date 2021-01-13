@@ -223,7 +223,7 @@ public enum DefaultVersionFeatures {
 			.with(NETHER_FORTRESS_FUNCTION, VersionFeature.<Function<FastRand, Boolean>> builder()
 				.init(
 					r -> r.nextInt(6) < 2
-				).since(RecognisedVersion._1_16_pre3,
+				).since(RecognisedVersion._1_16_pre4,
 					r -> r.nextInt(5) < 2
 				).construct())
 
@@ -254,7 +254,7 @@ public enum DefaultVersionFeatures {
 			.with(BASTION_REMNANT_FUNCTION, VersionFeature.<Function<FastRand, Boolean>> builder()
 				.init(
 					r -> r.nextInt(6) >= 2
-				).since(RecognisedVersion._1_16_pre3,
+				).since(RecognisedVersion._1_16_pre4,
 					r -> r.nextInt(5) >= 2
 				).construct())
 
@@ -264,7 +264,7 @@ public enum DefaultVersionFeatures {
 					(byte) 24
 				).since(RecognisedVersion._20w19a,
 					(byte) 30
-				).since(RecognisedVersion._1_16_pre3,
+				).since(RecognisedVersion._1_16_pre4,
 					(byte) 27
 				).construct()
 			)
