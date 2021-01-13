@@ -22,7 +22,7 @@ public enum InfdevClassTranslator {
     }
 
     private static String getFieldWorldSeed(RecognisedVersion v) {
-        if (RecognisedVersion.isOlder(v, RecognisedVersion._infdev_20100618))
+        if (RecognisedVersion.isOlder(v, RecognisedVersion._inf_20100618))
             return "l";
         else if (RecognisedVersion.isOlder(v, RecognisedVersion._infdev_20100630))
             return "m";
