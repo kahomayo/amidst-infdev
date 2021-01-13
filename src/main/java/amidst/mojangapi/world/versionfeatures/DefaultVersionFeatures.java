@@ -46,7 +46,9 @@ import amidst.mojangapi.world.oracle.BiomeDataOracle;
 import amidst.mojangapi.world.oracle.EndIsland;
 import amidst.mojangapi.world.oracle.EndIslandOracle;
 import amidst.mojangapi.world.oracle.HeuristicWorldSpawnOracle;
+import amidst.mojangapi.world.oracle.OriginWorldSpawnOracle;
 import amidst.mojangapi.world.oracle.SlimeChunkOracle;
+import amidst.mojangapi.world.oracle.WorldSpawnOracle;
 import amidst.util.FastRand;
 
 public enum DefaultVersionFeatures {
@@ -184,13 +186,16 @@ public enum DefaultVersionFeatures {
 			.with(FeatureKey.SLIME_CHUNK_ORACLE, VersionFeature.fixed(features ->
 				new SlimeChunkOracle(getWorldSeed(features))
 			))
-
-			.with(FeatureKey.WORLD_SPAWN_ORACLE, VersionFeature.fixed(features ->
-				new HeuristicWorldSpawnOracle(
-					getWorldSeed(features),
-					getBiomeOracle(features, Dimension.OVERWORLD),
-					features.get(SPAWN_VALID_BIOMES))
-				))
+            .with(FeatureKey.WORLD_SPAWN_ORACLE, VersionFeature.<WorldSpawnOracle>builder()
+				.init(new OriginWorldSpawnOracle())
+				.since(RecognisedVersion._a1_2_1_01,
+					VersionFeature.fixed(features ->
+						new HeuristicWorldSpawnOracle(
+							getWorldSeed(features),
+							getBiomeOracle(features, Dimension.OVERWORLD),
+							features.get(SPAWN_VALID_BIOMES)))
+				).construct()
+			)
 			.with(SPAWN_VALID_BIOMES, VersionFeature.<Integer> listBuilder()
 				.init(
 					DefaultBiomes.forest,
