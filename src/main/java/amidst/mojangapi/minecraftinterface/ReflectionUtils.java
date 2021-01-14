@@ -32,7 +32,7 @@ public enum ReflectionUtils {
 		Class<?> newType = originalType;
 		
 		boolean isArray = newType.isArray();
-		boolean isPrimitive = newType.isPrimitive() || (isArray ? newType.getComponentType().isPrimitive() : false);
+		boolean isPrimitive = newType.isPrimitive() || (isArray && newType.getComponentType().isPrimitive());
 		
 		if (!isPrimitive) {
 			newType = Object.class;
