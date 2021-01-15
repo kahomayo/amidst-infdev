@@ -6,7 +6,7 @@ To run this, you need to create profiles with the relevant versions in the vanil
 
 Don't expect much support for this and **do not** bother the developers of regular amidst with problems.
 
-## Biomes
+## Infdev-era Biomes
 
 This program displays biomes based on the height of the highest non-water block.
 
@@ -20,6 +20,26 @@ Min Y | Max Y | Biome
 90 | 99 | Extreme Hills
 100 | 126 | Extreme Hills M
 127 | 127 | Extreme Hills Plus
+
+## Beta Oceans
+
+In beta versions, oceans are only generated at limited precision to preserve performance. By default, Amidst-infdev is only using the 4
+most significant octaves. This results in pretty accurate oceans, though there will be some differences from in-game water.
+You can adjust this value by changing the value of `OCEAN_PRECISION` in BetaMinecraftInterface.
+
+As a comparison, below are three 5000x5000 images comparing precision 4 with the maximum of 16.
+
+Precision 16:
+
+![Precision 16](docs/kaai_16.png)
+
+Precision 4:
+
+![Precision 4](docs/kaai_4.png)
+
+Differences:
+
+![Differences](docs/vs_4.png)
 
 
 ## Versions
@@ -145,6 +165,9 @@ b1.7               | ✅     |
 b1.7_01            | ✅     |
 b1.7.2             | ✅     |
 b1.7.3             | ✅     |
+r1.16.4            | ✅     | I just updated the recognised versions
+r1.16.5            | ✅     |
+20w51a             | x      | idc
 
 ## What is my internet connection used for?
 
