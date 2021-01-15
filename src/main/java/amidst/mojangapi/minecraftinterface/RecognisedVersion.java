@@ -30,7 +30,7 @@ public enum RecognisedVersion {
 	_20w48a            ("20w48a",             "bszdaz$adbdapmaoaabfuwgn$badd[Jaczacfwidatwlwfaflwhcvp"),                                  // matches the launcher version id: 20w48a
 	_20w46a            ("20w46a",             "bszdaw$adbaapmaoaabfuwgn$badd[Jaczacfwidaqwlwfaflwhcvm"),                                  // matches the launcher version id: 20w46a
 	_20w45a            ("20w45a",             "bstdap$adatapmaoaabguwgn$badd[Jaczacfwjdajwmwgaflwicvf"),                                  // matches the launcher version id: 20w45a
-	_1_16_4            ("1.16.4",             "bsacyg$acykapcanqaaxungn$bacu[Jacqabwwacyawdvxafcvzcsw"),                                  // matches the launcher version id: 1.16.4               1.16.4-rc1           1.16.4-pre2
+	_1_16_5            ("1.16.5",             "bsacyg$acykapcanqaaxungn$bacu[Jacqabwwacyawdvxafcvzcsw"),                                  // matches the launcher version id: 1.16.5               1.16.5-rc1           1.16.4               1.16.4-rc1           1.16.4-pre2
 	_1_16_4_pre1       ("1.16.4-pre1",        "brzcyf$acyjapbanpaaxungn$bacu[Jacqabwwacxzwdvxafbvzcsv"),                                  // matches the launcher version id: 1.16.4-pre1
 	_20w14infinite     ("20w14infinite",      "bobczsamdakrzetcaay[Jaauaaazycvbkxaclugczmujdafdaeudueacu"),                               // matches the launcher version id: 20w14infinite
 	_19w14a            ("19w14a",             "bhacnqahbafuvvqbxo[Jxkwrwpcebdzzbrfricodrcrdzj"),                                          // matches the launcher version id: 19w14a
