@@ -71,7 +71,7 @@ public class AmidstVersion {
 	}
 
 	public String createLongVersionString() {
-		return "Amidst " + createVersionString();
+		return "Amidst MODDED FOR INFDEV COMPAT " + createVersionString();
 	}
 
 	public String createVersionString() {

@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>amidst</groupId>
-	<artifactId>amidst</artifactId>
+	<artifactId>amidst-infdev</artifactId>
 	<version>4.6</version>
 	<repositories>
 		<repository>
@@ -123,6 +123,21 @@
 			<version>1.0.0</version>
 			<scope>provided</scope>
 			<type>maven-plugin</type>
+		</dependency>
+		<dependency>
+			<groupId>org.ow2.asm</groupId>
+			<artifactId>asm-util</artifactId>
+			<version>8.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.ow2.asm</groupId>
+			<artifactId>asm</artifactId>
+			<version>8.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.objenesis</groupId>
+			<artifactId>objenesis</artifactId>
+			<version>3.1</version>
 		</dependency>
 	</dependencies>
 </project>

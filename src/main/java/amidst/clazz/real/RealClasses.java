@@ -9,6 +9,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import amidst.documentation.Immutable;
 import amidst.parsing.URIUtils;
@@ -54,7 +57,13 @@ public enum RealClasses {
 			if (Files.isDirectory(path)) {
 				readJarFileDirectory(path, result);
 			} else if (realClassName != null) {
-				RealClass realClass = readRealClass(realClassName, new BufferedInputStream(Files.newInputStream(path)));
+				String prefix = StreamSupport.stream(directory.spliterator(), false)
+						.map(Path::toString)
+						// For some reason JRE 8 puts a slash at the end of the last component. JRE 11 and later don't...
+						.map(s -> s.endsWith("/") ? s.substring(0, s.length() - 1) : s)
+                        .map(s -> s + ".")
+						.collect(Collectors.joining());
+				RealClass realClass = readRealClass(prefix + realClassName, new BufferedInputStream(Files.newInputStream(path)));
 				if (realClass != null) {
 					result.add(realClass);
 				}

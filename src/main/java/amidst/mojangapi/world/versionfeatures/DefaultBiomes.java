@@ -107,8 +107,18 @@ public enum DefaultBiomes {
 	public static final int warpedForest         = 172;
 	public static final int basaltDeltas         = 173;
 
+
 	public static final VersionFeature<BiomeList> DEFAULT_BIOMES = VersionFeature.<Biome> listBuilder()
-		.init( // Starts at alpha 1.2.0
+		.init( // Starts in infdev
+			new Biome(0, "Ocean", OCEAN),
+			new Biome(1, "Plains", PLAINS),
+			new Biome(deepOcean, "Deep Ocean", OCEAN),
+			new Biome(beach, "Beach", BEACH),
+			new Biome(extremeHills, "Extreme Hills", HILLS),
+			new Biome(extremeHillsEdge, "Extreme Hills Edge", HILLS),
+			new Biome(extremeHillsM, "Extreme Hills M", HILLS),
+			new Biome(extremeHillsPlus, "Extreme Hills Plus", HILLS)
+		).since(RecognisedVersion._a1_2_1_01,
 			new Biome(jungle, "Rainforest", PLAINS),
 			new Biome(forestHills, "Seasonal Forest", PLAINS),
 			new Biome(forest, "Forest", PLAINS),
@@ -193,9 +203,9 @@ public enum DefaultBiomes {
 			new Biome("Mesa M", 37, PLAINS),
 			new Biome("Mesa Plateau F M", 38, PLATEAU),
 			new Biome("Mesa Plateau M", 39, PLATEAU)
-		).sinceExtend(RecognisedVersion._14w02a, // Need confirmation on version; this was changed sometime after 1.7.10 and before 1.8.8
+		).sinceExtend(RecognisedVersion._14w02c, // Need confirmation on version; this was changed sometime after 1.7.10 and before 1.8.8
 			new Biome(161,"Redwood Taiga Hills M", PLAINS_TAIGA.strengthen(), true)
-		).sinceExtend(RecognisedVersion._14w17a,
+		).sinceExtend(RecognisedVersion._14w18b,
 			new Biome(9,  "The End", PLAINS)
 		).sinceExtend(RecognisedVersion._15w31c, // Need confirmation on this version. Was after 1.8.8 and before 1.9.4
 			new Biome("Sunflower Plains", 1, PLAINS),
@@ -283,7 +293,7 @@ public enum DefaultBiomes {
 			new Biome("Eroded Badlands", 37, PLAINS),
 			new Biome("Modified Wooded Badlands Plateau", 38, PLATEAU),
 			new Biome("Modified Badlands Plateau", 39, PLATEAU)
-		).sinceExtend(RecognisedVersion._18w43a,
+		).sinceExtend(RecognisedVersion._18w43b,
 			new Biome(168, "Bamboo Jungle", PLAINS),
 			new Biome(169, "Bamboo Jungle Hills", HILLS)
 		).sinceExtend(RecognisedVersion._20w06a,

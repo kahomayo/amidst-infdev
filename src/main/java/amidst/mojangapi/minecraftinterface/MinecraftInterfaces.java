@@ -9,12 +9,16 @@ import amidst.clazz.Classes;
 import amidst.clazz.real.JarFileParsingException;
 import amidst.clazz.symbolic.SymbolicClass;
 import amidst.clazz.symbolic.SymbolicClassGraphCreationException;
+import amidst.clazz.symbolic.declaration.SymbolicClassDeclaration;
 import amidst.clazz.translator.ClassTranslator;
 import amidst.documentation.NotNull;
 import amidst.logging.AmidstLogger;
 import amidst.mojangapi.file.LauncherProfile;
 import amidst.mojangapi.minecraftinterface.legacy.BetaClassTranslator;
 import amidst.mojangapi.minecraftinterface.legacy.BetaMinecraftInterface;
+import amidst.mojangapi.minecraftinterface.legacy.InfdevClassLoaders;
+import amidst.mojangapi.minecraftinterface.legacy.InfdevClassTranslator;
+import amidst.mojangapi.minecraftinterface.legacy.InfdevMinecraftInterface;
 import amidst.mojangapi.minecraftinterface.legacy.LegacyClassTranslator;
 import amidst.mojangapi.minecraftinterface.legacy.LegacyMinecraftInterface;
 import amidst.mojangapi.minecraftinterface.legacy._1_13ClassTranslator;
@@ -34,8 +38,10 @@ public enum MinecraftInterfaces {
             URLClassLoader classLoader = launcherProfile.newClassLoader();
             RecognisedVersion recognisedVersion = RecognisedVersion.from(classLoader);
             Factory factory = fromVersion(recognisedVersion);
-            Map<String, SymbolicClass> symbolicClassMap = Classes
-                    .createSymbolicClassMap(launcherProfile.getJar(), classLoader, factory.classTranslator);
+            Map<String, SymbolicClass> symbolicClassMap = Classes.createSymbolicClassMap(
+                    launcherProfile.getJar(),
+                    map -> factory.classLoaderFactory.supply(classLoader, recognisedVersion, map),
+                    factory.classTranslator);
             MinecraftInterface minecraftInterface = factory.factory.apply(symbolicClassMap, recognisedVersion);
 
             AmidstLogger.info("Minecraft load complete.");
@@ -56,7 +62,9 @@ public enum MinecraftInterfaces {
 
     @NotNull
     private static Factory fromVersion(RecognisedVersion version) {
-        if(RecognisedVersion.isOlderOrEqualTo(version, BetaMinecraftInterface.LAST_COMPATIBLE_VERSION)) {
+        if (RecognisedVersion.isOlderOrEqualTo(version, InfdevMinecraftInterface.LAST_COMPATIBLE_VERSION)) {
+            return new Factory(InfdevClassTranslator.get(version), InfdevMinecraftInterface::new, InfdevClassLoaders::from);
+        } else if(RecognisedVersion.isOlderOrEqualTo(version, BetaMinecraftInterface.LAST_COMPATIBLE_VERSION)) {
             return new Factory(BetaClassTranslator.get(version), BetaMinecraftInterface::new);
         } else if(RecognisedVersion.isOlderOrEqualTo(version, LegacyMinecraftInterface.LAST_COMPATIBLE_VERSION)) {
             return new Factory(LegacyClassTranslator.get(), LegacyMinecraftInterface::new);
@@ -72,11 +80,38 @@ public enum MinecraftInterfaces {
     private static class Factory {
         public ClassTranslator classTranslator;
         public BiFunction<Map<String, SymbolicClass>, RecognisedVersion, MinecraftInterface> factory;
+        public ClassLoaderFactory classLoaderFactory;
 
         public Factory(ClassTranslator classTranslator,
-                BiFunction<Map<String, SymbolicClass>, RecognisedVersion, MinecraftInterface> factory) {
+               BiFunction<Map<String, SymbolicClass>, RecognisedVersion, MinecraftInterface> factory) {
+            this(classTranslator, factory, ClassLoaderFactory.REUSE);
+        }
+
+        public Factory(ClassTranslator classTranslator,
+                       BiFunction<Map<String, SymbolicClass>, RecognisedVersion, MinecraftInterface> factory,
+                       ClassLoaderFactory classLoaderFactory) {
             this.classTranslator = classTranslator;
             this.factory = factory;
+            this.classLoaderFactory = classLoaderFactory;
         }
     }
+
+    @FunctionalInterface
+    private interface ClassLoaderFactory {
+        ClassLoaderFactory REUSE = (classLoader, version, classNames) -> classLoader;
+
+        /**
+         * Choose a class loader for the given version and with the given mappings.
+         * <p>
+         * The returned class loader need not have {@code existing} as its
+         * parent class loader; it may even simply return {@code existing}.
+         *
+         * @param existing         the class loader used to resolve the version
+         * @param version          the version
+         * @param mappedClassNames the mapping from symbolic names to real names
+         * @return a class loader
+         */
+        URLClassLoader supply(URLClassLoader existing, RecognisedVersion version, Map<SymbolicClassDeclaration, String> mappedClassNames);
+    }
+
 }

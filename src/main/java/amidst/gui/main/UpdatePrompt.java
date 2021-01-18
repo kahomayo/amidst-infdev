@@ -90,7 +90,6 @@ public class UpdatePrompt {
 
 	@CalledOnlyBy(AmidstThread.EDT)
 	public void check() {
-		workerExecutor.run(UpdateInformationRetriever::retrieve, this::displayResult, this::onCheckFailed);
 	}
 
 	@CalledOnlyBy(AmidstThread.EDT)
